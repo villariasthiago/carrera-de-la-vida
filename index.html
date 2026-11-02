@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF4E2">
+  <title>La Carrera de la Vida</title>
+  <meta name="description" content="Juego de mesa de la carrera de la vida para jugar en la tablet, contra la compu u online.">
+  <link rel="icon" href="img/icono.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ============ INICIO ============ -->
+    <section id="p-inicio" class="pantalla activa">
+      <div class="inicio-fondo" aria-hidden="true">
+        <div class="nube n1"></div><div class="nube n2"></div><div class="nube n3"></div>
+        <svg class="inicio-ruta" viewBox="0 0 1200 260" preserveAspectRatio="none">
+          <path d="M-20 200 C 200 120 380 260 600 170 S 1000 110 1220 190" fill="none" stroke="#F3E2C4" stroke-width="46" stroke-linecap="round"/>
+          <path d="M-20 200 C 200 120 380 260 600 170 S 1000 110 1220 190" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="18 22" stroke-linecap="round" opacity=".9"/>
+        </svg>
+        <div class="inicio-auto">🚗</div>
+      </div>
+      <div class="inicio-caja">
+        <h1 class="logo">
+          <span class="l1">La</span>
+          <span class="l2"><b style="--c:#E2615A">C</b><b style="--c:#F39A4A">a</b><b style="--c:#E9B323">r</b><b style="--c:#5DBB7E">r</b><b style="--c:#4FA3D9">e</b><b style="--c:#8B6CC9">r</b><b style="--c:#E46C9C">a</b></span>
+          <span class="l3">de la Vida</span>
+        </h1>
+        <p class="lema">Estudiá, trabajá, casate, comprá tu casa… ¡y jubilate con la mayor fortuna!</p>
+        <div class="menu-inicio">
+          <button class="btn grande b-naranja" data-ir="local">🧑‍🤝‍🧑 Jugar en este dispositivo</button>
+          <button class="btn grande b-azul" data-ir="online">🌐 Jugar online</button>
+          <button class="btn grande b-verde" data-ir="solo">🤖 Un jugador (contra la compu)</button>
+          <button class="btn grande b-violeta oculto" id="btn-continuar">⏯️ Continuar partida guardada</button>
+        </div>
+        <div class="menu-sec">
+          <button class="btn chico" data-accion="reglamento">📖 Reglamento</button>
+          <button class="btn chico" data-accion="guia">💡 Guía rápida</button>
+          <button class="btn chico" data-accion="sonido" id="btn-sonido-inicio">🔊 Sonido</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONFIGURAR PARTIDA LOCAL ============ -->
+    <section id="p-config" class="pantalla">
+      <div class="hoja">
+        <button class="volver" data-ir="inicio">← Volver</button>
+        <h2 id="config-titulo">Armá la partida</h2>
+        <p class="ayuda-txt" id="config-ayuda">De 2 a 6 jugadores. Cada uno elige nombre y color de auto. Pueden sumar a la compu.</p>
+        <div id="config-jugadores" class="config-jugadores"></div>
+        <div class="fila-botones">
+          <button class="btn b-blanco" id="btn-agregar">＋ Agregar jugador</button>
+          <button class="btn b-blanco" id="btn-agregar-bot">＋ Agregar a la compu</button>
+        </div>
+        <label class="opcion-check"><input type="checkbox" id="chk-rapido"> Animaciones rápidas</label>
+        <button class="btn grande b-naranja" id="btn-empezar">¡Arrancar! 🏁</button>
+      </div>
+    </section>
+
+    <!-- ============ ONLINE ============ -->
+    <section id="p-online" class="pantalla">
+      <div class="hoja">
+        <button class="volver" data-ir="inicio">← Volver</button>
+        <h2>Jugar online</h2>
+        <p class="ayuda-txt">Uno crea la sala y le pasa el código al otro. Cada uno juega desde su casa, en su compu o tablet.</p>
+        <div class="campo">
+          <label for="online-nombre">Tu nombre</label>
+          <input id="online-nombre" maxlength="14" placeholder="Ej.: Sofi" autocomplete="off">
+        </div>
+        <div class="campo">
+          <label>Tu color de auto</label>
+          <div class="selector-colores" id="online-colores"></div>
+        </div>
+        <div class="online-opciones">
+          <div class="tarjeta-op">
+            <h3>Crear sala</h3>
+            <p>Sos quien arma la partida. Tu navegador hace de "anfitrión", así que dejalo abierto mientras juegan.</p>
+            <button class="btn b-naranja" id="btn-crear-sala">Crear sala</button>
+          </div>
+          <div class="tarjeta-op">
+            <h3>Unirme a una sala</h3>
+            <p>Escribí el código que te pasaron.</p>
+            <input id="online-codigo" class="codigo-input" maxlength="5" placeholder="ABCDE" autocomplete="off" autocapitalize="characters">
+            <button class="btn b-azul" id="btn-unirme">Unirme</button>
+          </div>
+        </div>
+        <p class="estado-red" id="online-estado"></p>
+      </div>
+    </section>
+
+    <!-- ============ SALA DE ESPERA ============ -->
+    <section id="p-sala" class="pantalla">
+      <div class="hoja">
+        <button class="volver" id="sala-salir">← Salir de la sala</button>
+        <h2>Sala de espera</h2>
+        <div class="codigo-sala">
+          <span>Código de la sala</span>
+          <strong id="sala-codigo">-----</strong>
+          <button class="btn chico" id="btn-copiar">📋 Copiar invitación</button>
+        </div>
+        <p class="ayuda-txt" id="sala-ayuda"></p>
+        <ul class="sala-lista" id="sala-lista"></ul>
+        <div class="fila-botones" id="sala-host-botones">
+          <button class="btn b-blanco" id="sala-bot">＋ Sumar a la compu</button>
+          <label class="opcion-check"><input type="checkbox" id="sala-rapido"> Animaciones rápidas</label>
+        </div>
+        <button class="btn grande b-naranja" id="sala-empezar">¡Arrancar partida! 🏁</button>
+        <p class="estado-red" id="sala-estado"></p>
+      </div>
+    </section>
+
+    <!-- ============ JUEGO ============ -->
+    <section id="p-juego" class="pantalla">
+      <header class="barra">
+        <div class="barra-logo">La <b>Carrera</b> de la Vida</div>
+        <div class="barra-turno" id="barra-turno"></div>
+        <div class="barra-botones">
+          <span class="red-indicador oculto" id="red-indicador" title="Conexión"></span>
+          <button class="ico" data-accion="guia" title="Guía rápida">💡</button>
+          <button class="ico" data-accion="reglamento" title="Reglamento">📖</button>
+          <button class="ico" data-accion="sonido" id="btn-sonido" title="Sonido">🔊</button>
+          <button class="ico" data-accion="menu" title="Menú">☰</button>
+        </div>
+      </header>
+      <main class="juego">
+        <div class="tablero-vp" id="tablero-vp">
+          <div class="tablero-mundo" id="tablero-mundo"></div>
+          <div class="zoom-botones">
+            <button class="ico" id="z-mas" title="Acercar">＋</button>
+            <button class="ico" id="z-menos" title="Alejar">－</button>
+            <button class="ico" id="z-todo" title="Ver todo el tablero">🗺️</button>
+            <button class="ico" id="z-seguir" title="Seguir al auto del turno">🎯</button>
+          </div>
+          <div class="cartel-casilla" id="cartel-casilla"></div>
+        </div>
+        <aside class="panel">
+          <div class="panel-arriba">
+            <div class="ruleta-caja"><div id="ruleta"></div></div>
+            <div class="acciones" id="acciones"></div>
+          </div>
+          <div class="jugadores" id="jugadores"></div>
+          <details class="historial" id="historial">
+            <summary>📜 Lo que pasó</summary>
+            <ol id="historial-lista"></ol>
+          </details>
+        </aside>
+      </main>
+    </section>
+  </div>
+
+  <div id="modal" class="modal-capa" aria-hidden="true"></div>
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+  <div id="banner" class="banner"></div>
+  <canvas id="confeti"></canvas>
+
+  <script src="js/vendor/peerjs.min.js"></script>
+  <script src="js/datos.js"></script>
+  <script src="js/motor.js"></script>
+  <script src="js/bot.js"></script>
+  <script src="js/sonido.js"></script>
+  <script src="js/ruleta.js"></script>
+  <script src="js/tablero.js"></script>
+  <script src="js/ayuda.js"></script>
+  <script src="js/interfaz.js"></script>
+  <script src="js/red.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
